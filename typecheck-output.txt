@@ -1,0 +1,102 @@
+
+> rank-brnd@0.1.0 typecheck /home/oxtsotsi/Webrnds/DevFlow/Rank.brnd
+> tsc --noEmit
+
+app/(protected)/dashboard/error.tsx(4,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+app/(protected)/error.tsx(4,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+app/api/activity-logs/resource/[...resource]/route.ts(103,52): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+app/api/articles/[id]/seo-score/route.ts(110,69): error TS2339: Property 'errors' does not exist on type 'ZodError<{ update_article: boolean; target_keyword?: string | undefined; min_word_count?: number | undefined; max_word_count?: number | undefined; target_grade_min?: number | undefined; target_grade_max?: number | undefined; base_url?: string | undefined; }>'.
+app/api/articles/generate/route.ts(75,41): error TS2339: Property 'errors' does not exist on type 'ZodError<{ keyword: string; tone: "professional" | "casual" | "friendly" | "playful" | "authoritative" | "minimalist"; targetLength: number; keyword_id?: string | undefined; outline?: { id: string; title: string; points: string[]; wordCount: number; }[] | undefined; customInstructions?: string | undefined; organizat...'.
+app/api/articles/outline/route.ts(37,41): error TS2339: Property 'errors' does not exist on type 'ZodError<{ keyword: string; sections: number; organization_id?: string | undefined; keyword_id?: string | undefined; target_length?: number | undefined; }>'.
+app/api/keywords/search/route.ts(193,63): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+app/api/keywords/search/route.ts(262,57): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+app/api/seo/analyze/route.ts(56,69): error TS2339: Property 'errors' does not exist on type 'ZodError<{ title: string; content: string; slug?: string | undefined; excerpt?: string | undefined; meta_title?: string | undefined; meta_description?: string | undefined; meta_keywords?: string[] | undefined; ... 6 more ...; base_url?: string | undefined; }>'.
+app/api/stripe/confirm-subscription/route.ts(149,38): error TS2339: Property 'current_period_end' does not exist on type 'Response<Subscription>'.
+app/api/stripe/subscription/route.ts(92,40): error TS2339: Property 'current_period_end' does not exist on type 'Response<Subscription>'.
+app/api/stripe/subscription/route.ts(171,47): error TS2339: Property 'current_period_end' does not exist on type 'Response<Subscription>'.
+app/api/team-invitations/accept-by-token/route.ts(94,57): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+app/api/team-invitations/check/route.ts(56,58): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+app/api/team-invitations/validate/route.ts(87,50): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
+app/global-error.tsx(3,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+components/activity-feed/activity-logs-table.tsx(48,37): error TS2307: Cannot find module 'date-fns' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(15,42): error TS2307: Cannot find module '@tiptap/react' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(16,24): error TS2307: Cannot find module '@tiptap/starter-kit' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(17,23): error TS2307: Cannot find module '@tiptap/extension-underline' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(18,25): error TS2307: Cannot find module '@tiptap/extension-placeholder' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(19,32): error TS2307: Cannot find module '@tiptap/extension-character-count' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(20,23): error TS2307: Cannot find module '@tiptap/extension-text-align' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(21,24): error TS2307: Cannot find module '@tiptap/extension-typography' or its corresponding type declarations.
+components/articles/tiptap-editor.tsx(110,18): error TS7031: Binding element 'editor' implicitly has an 'any' type.
+components/error-boundaries/async-error-boundary.tsx(4,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+components/error-boundaries/page-error-boundary.tsx(4,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+components/error-boundaries/section-error-boundary.tsx(4,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+components/error-boundary.tsx(4,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+components/navigation/user-menu-dropdown.tsx(30,43): error TS2307: Cannot find module '@clerk/types' or its corresponding type declarations.
+components/ui/confetti.tsx(58,24): error TS2554: Expected 1 arguments, but got 0.
+components/ui/confetti.tsx(59,24): error TS2554: Expected 1 arguments, but got 0.
+components/ui/confetti.tsx(217,24): error TS2554: Expected 1 arguments, but got 0.
+lib/api-error-handler.ts(10,25): error TS2307: Cannot find module '@sentry/nextjs' or its corresponding type declarations.
+lib/api-error-handler.ts(235,12): error TS7006: Parameter 'span' implicitly has an 'any' type.
+lib/csrf.ts(74,15): error TS2339: Property 'set' does not exist on type 'Promise<ReadonlyRequestCookies>'.
+lib/csrf.ts(93,37): error TS2339: Property 'get' does not exist on type 'Promise<ReadonlyRequestCookies>'.
+lib/schemas/activity-logs.ts(35,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/activity-logs.ts(92,21): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/activity-logs.ts(110,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(55,18): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(60,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(136,18): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(141,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(230,18): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(234,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(300,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/articles.ts(317,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/common.ts(71,33): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/google-search-console.ts(22,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/google-search-console.ts(102,14): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/images.ts(71,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/images.ts(123,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/images.ts(185,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/integrations.ts(63,30): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/keywords.ts(60,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/keywords.ts(118,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/products.ts(37,11): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: readonly ["professional", "casual", "friendly", "formal"], params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; } | undefined): ZodEnum<...>', gave the following error.
+    Object literal may only specify known properties, and 'errorMap' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; }'.
+  Overload 2 of 2, '(entries: Readonly<Record<string, EnumValue>>, params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; } | undefined): ZodEnum<...>', gave the following error.
+    Argument of type 'string[]' is not assignable to parameter of type 'Readonly<Record<string, EnumValue>>'.
+      Index signature for type 'string' is missing in type 'string[]'.
+lib/schemas/products.ts(42,12): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: readonly ["first-person", "second-person", "third-person"], params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; } | undefined): ZodEnum<...>', gave the following error.
+    Object literal may only specify known properties, and 'errorMap' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; }'.
+  Overload 2 of 2, '(entries: Readonly<Record<string, EnumValue>>, params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; } | undefined): ZodEnum<...>', gave the following error.
+    Argument of type 'string[]' is not assignable to parameter of type 'Readonly<Record<string, EnumValue>>'.
+      Index signature for type 'string' is missing in type 'string[]'.
+lib/schemas/products.ts(116,6): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: readonly ["active", "archived", "pending"], params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; } | undefined): ZodEnum<...>', gave the following error.
+    Object literal may only specify known properties, and 'errorMap' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; }'.
+  Overload 2 of 2, '(entries: Readonly<Record<string, EnumValue>>, params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidValue<unknown>> | undefined; message?: string | undefined; } | undefined): ZodEnum<...>', gave the following error.
+    Argument of type 'string[]' is not assignable to parameter of type 'Readonly<Record<string, EnumValue>>'.
+      Index signature for type 'string' is missing in type 'string[]'.
+lib/schemas/publishing-queue.ts(64,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/publishing-queue.ts(123,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/publishing-queue.ts(157,21): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/rank-tracking.ts(42,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/rank-tracking.ts(97,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/rank-tracking.ts(145,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/rank-tracking.ts(188,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/schedules.ts(49,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/schedules.ts(68,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/stripe.ts(24,15): error TS2554: Expected 2-3 arguments, but got 1.
+lib/schemas/validation.ts(108,26): error TS2339: Property 'length' does not exist on type '{}'.
+lib/schemas/validation.ts(111,35): error TS2339: Property 'length' does not exist on type '{}'.
+lib/schemas/validation.ts(111,50): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type '{}'.
+  Property '0' does not exist on type '{}'.
+lib/stripe/client.ts(87,5): error TS2322: Type '"2023-10-16"' is not assignable to type '"2026-01-28.clover"'.
+lib/stripe/webhooks.ts(132,38): error TS2339: Property 'current_period_start' does not exist on type 'Subscription'.
+lib/stripe/webhooks.ts(133,36): error TS2339: Property 'current_period_end' does not exist on type 'Subscription'.
+lib/stripe/webhooks.ts(155,36): error TS2339: Property 'current_period_end' does not exist on type 'Subscription'.
+lib/stripe/webhooks.ts(189,29): error TS2339: Property 'subscription' does not exist on type 'Invoice'.
+lib/stripe/webhooks.ts(212,29): error TS2339: Property 'subscription' does not exist on type 'Invoice'.
+tests/e2e/critical-user-path-keyword-search.spec.ts(255,88): error TS2339: Property 'tagName' does not exist on type 'Locator'.
+tests/e2e/critical-user-path-keyword-search.spec.ts(280,96): error TS2339: Property 'tagName' does not exist on type 'Locator'.
+ ELIFECYCLE  Command failed with exit code 2.

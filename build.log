@@ -1,0 +1,52 @@
+
+> rank-brnd@0.1.0 build
+> next build
+
+⚠ You are using a non-standard "NODE_ENV" value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /home/oxtsotsi/Webrnds/DevFlow/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /home/oxtsotsi/Webrnds/DevFlow/Rank.brnd/pnpm-lock.yaml
+
+▲ Next.js 16.1.6 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.1s
+  Running TypeScript ...
+  Collecting page data using 31 workers ...
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+⚠ Using edge runtime on a page currently disables static generation for that page
+  Generating static pages using 31 workers (0/108) ...
+  Generating static pages using 31 workers (27/108) 
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+  Generating static pages using 31 workers (54/108) 
+WARNING: OAUTH_TOKEN_ENCRYPTION_KEY not set. Tokens will not be encrypted.
+  Generating static pages using 31 workers (81/108) 
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <__next_viewport_boundary__>. See https://react.dev/link/warning-keys for more information.
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <M>. See https://react.dev/link/warning-keys for more information.
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <meta>. See https://react.dev/link/warning-keys for more information.
+Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <head>. See https://react.dev/link/warning-keys for more information.
+Error occurred prerendering page "/_global-error". Read more: https://nextjs.org/docs/messages/prerender-error
+TypeError: Cannot read properties of null (reading 'useContext')
+    at M (.next/server/chunks/ssr/026b1_next_dist_esm_cbbb786c._.js:4:15064) {
+  digest: '3361334098'
+}
+Export encountered an error on /_global-error/page: /_global-error, exiting the build.
+⨯ Next.js build worker exited with code: 1 and signal: null

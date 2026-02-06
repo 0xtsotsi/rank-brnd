@@ -1,0 +1,14 @@
+{
+  "description": "Primary button component with hover and active states",
+  "version": "1.0.0",
+  "figmaNodeType": "COMPONENT",
+  "nodeType": "COMPONENT_SET"
+  "fileKey": "buttons/primary-button",
+  "name": "Primary Button",
+  "author": "Rank.brnd Team",
+  "thumbnailUrl": "",
+  "documentUrl": "",
+  "updatedAt": "2026-02-05T18:56:00Z",
+  "libraries": [],
+  "mainComponentNode": "0:0"
+}

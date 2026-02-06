@@ -1,0 +1,1684 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Rank API Documentation",
+    "description": "API documentation for Rank - SEO and content management platform",
+    "version": "0.1.0",
+    "contact": {
+      "name": "API Support"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://rank.brnd.dev",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
+    },
+    {
+      "name": "Authentication",
+      "description": "Authentication and session management"
+    },
+    {
+      "name": "Products",
+      "description": "Product/Website management"
+    },
+    {
+      "name": "Keywords",
+      "description": "Keyword research and analysis"
+    },
+    {
+      "name": "CMS",
+      "description": "Content Management System integrations"
+    },
+    {
+      "name": "Stripe",
+      "description": "Payment and subscription management"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhook handlers for external services"
+    },
+    {
+      "name": "Domain Authority",
+      "description": "Domain authority metrics via Moz API"
+    },
+    {
+      "name": "Usage",
+      "description": "Usage tracking and quota management"
+    },
+    {
+      "name": "Upload",
+      "description": "File upload endpoints"
+    },
+    {
+      "name": "Dashboard",
+      "description": "Dashboard metrics and analytics"
+    },
+    {
+      "name": "Onboarding",
+      "description": "User onboarding flows"
+    },
+    {
+      "name": "Account",
+      "description": "Account management and deletion"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health check",
+        "description": "Check if the API is running",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/csrf-token": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Get CSRF token",
+        "description": "Retrieve a CSRF token for protected requests",
+        "operationId": "getCsrfToken",
+        "responses": {
+          "200": {
+            "description": "CSRF token retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CsrfTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "List products",
+        "description": "Fetch all products with optional filtering",
+        "operationId": "listProducts",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search term to filter products",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by status",
+            "schema": {
+              "type": "string",
+              "enum": ["active", "inactive", "draft", "all"],
+              "default": "all"
+            }
+          },
+          {
+            "name": "tone",
+            "in": "query",
+            "description": "Filter by brand tone",
+            "schema": {
+              "$ref": "#/components/schemas/BrandTone"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Create product",
+        "description": "Create a new product",
+        "operationId": "createProduct",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Products"],
+        "summary": "Update product",
+        "description": "Update an existing product",
+        "operationId": "updateProduct",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Delete product",
+        "description": "Delete a product",
+        "operationId": "deleteProduct",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "Product ID to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/keywords": {
+      "post": {
+        "tags": ["Keywords"],
+        "summary": "Generate keywords",
+        "description": "Generate keyword suggestions for a given topic",
+        "operationId": "generateKeywords",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeywordsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cms/medium": {
+      "get": {
+        "tags": ["CMS"],
+        "summary": "List Medium publications",
+        "description": "Get user's publications from Medium",
+        "operationId": "listMediumPublications",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Medium integration token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publications retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediumPublicationsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["CMS"],
+        "summary": "Publish to Medium",
+        "description": "Publish an article to Medium",
+        "operationId": "publishToMedium",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediumPublishRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Article published successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediumPublishResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cms/shopify": {
+      "get": {
+        "tags": ["CMS"],
+        "summary": "Get Shopify shop info",
+        "description": "Get shop information and blogs from Shopify",
+        "operationId": "getShopifyInfo",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "shopDomain",
+            "in": "query",
+            "description": "Shopify shop domain (overrides env var)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accessToken",
+            "in": "query",
+            "description": "Shopify access token (overrides env var)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shop info retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopifyInfoResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["CMS"],
+        "summary": "Publish to Shopify",
+        "description": "Publish content to Shopify (article, product, collection, or images)",
+        "operationId": "publishToShopify",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  { "$ref": "#/components/schemas/ShopifyArticleRequest" },
+                  { "$ref": "#/components/schemas/ShopifyProductRequest" },
+                  { "$ref": "#/components/schemas/ShopifyCollectionRequest" },
+                  { "$ref": "#/components/schemas/ShopifyImageUploadRequest" }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content published successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopifyPublishResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": ["CMS"],
+        "summary": "Update Shopify content",
+        "description": "Update existing content in Shopify",
+        "operationId": "updateShopifyContent",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShopifyUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "type": { "type": "string" },
+                    "id": { "type": "string" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["CMS"],
+        "summary": "Delete Shopify content",
+        "description": "Delete content from Shopify",
+        "operationId": "deleteShopifyContent",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "description": "Type of content to delete",
+            "schema": {
+              "type": "string",
+              "enum": ["product", "collection", "article"]
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "ID of content to delete",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blogId",
+            "in": "query",
+            "description": "Blog ID (required for articles)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Content deleted successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/stripe/prices": {
+      "get": {
+        "tags": ["Stripe"],
+        "summary": "List prices",
+        "description": "Get available subscription prices",
+        "operationId": "listPrices",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Prices retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PricesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/stripe/subscription": {
+      "get": {
+        "tags": ["Stripe"],
+        "summary": "Get subscription",
+        "description": "Get user's current subscription",
+        "operationId": "getSubscription",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Subscription retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Stripe"],
+        "summary": "Create subscription",
+        "description": "Create a new subscription",
+        "operationId": "createSubscription",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscriptionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Stripe"],
+        "summary": "Cancel subscription",
+        "description": "Cancel user's subscription",
+        "operationId": "cancelSubscription",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Subscription cancelled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/stripe/create-checkout-session": {
+      "post": {
+        "tags": ["Stripe"],
+        "summary": "Create checkout session",
+        "description": "Create a Stripe checkout session for subscription",
+        "operationId": "createCheckoutSession",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checkout session created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutSessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/webhooks/stripe": {
+      "post": {
+        "tags": ["Webhooks"],
+        "summary": "Stripe webhook handler",
+        "description": "Handle webhook events from Stripe",
+        "operationId": "stripeWebhook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook processed successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/webhooks/clerk": {
+      "post": {
+        "tags": ["Webhooks"],
+        "summary": "Clerk webhook handler",
+        "description": "Handle webhook events from Clerk (user/org sync)",
+        "operationId": "clerkWebhook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook processed successfully"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/domain-authority": {
+      "get": {
+        "tags": ["Domain Authority"],
+        "summary": "Get domain authority",
+        "description": "Fetch domain authority metrics for a single domain",
+        "operationId": "getDomainAuthority",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "description": "Domain to check",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bypassCache",
+            "in": "query",
+            "description": "Bypass cache and fetch fresh data",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Domain authority retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainAuthorityMetrics"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Domain Authority"],
+        "summary": "Batch domain authority check",
+        "description": "Fetch domain authority for multiple domains (max 50)",
+        "operationId": "batchDomainAuthority",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchDomainAuthorityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Domain authorities retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchDomainAuthorityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/usage": {
+      "get": {
+        "tags": ["Usage"],
+        "summary": "Get usage stats",
+        "description": "Get all usage quotas for the current organization",
+        "operationId": "getUsageStats",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "planId",
+            "in": "query",
+            "description": "Plan ID for quota limits",
+            "schema": {
+              "type": "string",
+              "default": "free"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usage stats retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageStatsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Usage"],
+        "summary": "Check usage limit",
+        "description": "Check if a specific usage is allowed",
+        "operationId": "checkUsageLimit",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckUsageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usage check completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckUsageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/upload": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Upload file",
+        "description": "Upload a file to storage",
+        "operationId": "uploadFile",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/dashboard/metrics": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Get dashboard metrics",
+        "description": "Get aggregated metrics for the dashboard",
+        "operationId": "getDashboardMetrics",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Metrics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardMetricsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/onboarding": {
+      "post": {
+        "tags": ["Onboarding"],
+        "summary": "Complete onboarding",
+        "description": "Complete user onboarding process",
+        "operationId": "completeOnboarding",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "step": { "type": "string" },
+                  "data": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Onboarding completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardingResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/user/account/deletion": {
+      "get": {
+        "tags": ["Account"],
+        "summary": "Get deletion status",
+        "description": "Get current deletion status and summary",
+        "operationId": "getDeletionStatus",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Deletion status retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletionStatusResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Account"],
+        "summary": "Request account deletion",
+        "description": "Request or confirm account deletion",
+        "operationId": "requestAccountDeletion",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountDeletionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deletion request created or confirmed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "message": { "type": "string" },
+                    "confirmationToken": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Account"],
+        "summary": "Cancel deletion request",
+        "description": "Cancel a pending deletion request",
+        "operationId": "cancelDeletionRequest",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deletion request cancelled"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/example-protected": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Example public endpoint",
+        "description": "Public GET endpoint without CSRF protection",
+        "operationId": "examplePublicGet",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "note": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Example protected endpoint",
+        "description": "Example of CSRF-protected endpoint",
+        "operationId": "exampleProtectedPost",
+        "parameters": [
+          {
+            "name": "x-csrf-token",
+            "in": "header",
+            "required": true,
+            "description": "CSRF token for validation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/protected/example": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Protected example endpoint",
+        "description": "Example of authenticated-only endpoint",
+        "operationId": "protectedExample",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Protected data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProtectedDataResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Clerk JWT authentication token"
+      }
+    },
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      },
+      "CsrfTokenResponse": {
+        "type": "object",
+        "properties": {
+          "csrfToken": { "type": "string" },
+          "expiresAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "BrandTone": {
+        "type": "string",
+        "enum": [
+          "professional",
+          "casual",
+          "friendly",
+          "formal",
+          "playful",
+          "authoritative",
+          "minimalist"
+        ]
+      },
+      "ProductStatus": {
+        "type": "string",
+        "enum": ["active", "inactive", "draft"]
+      },
+      "BrandColors": {
+        "type": "object",
+        "properties": {
+          "primary": { "type": "string" },
+          "secondary": { "type": "string" },
+          "accent": { "type": "string" }
+        },
+        "required": ["primary"]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "brandColors": { "$ref": "#/components/schemas/BrandColors" },
+          "tone": { "$ref": "#/components/schemas/BrandTone" },
+          "status": { "$ref": "#/components/schemas/ProductStatus" },
+          "description": { "type": "string" },
+          "logoUrl": { "type": "string" },
+          "industry": { "type": "string" },
+          "targetAudience": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "name", "url", "brandColors", "tone", "status"]
+      },
+      "CreateProductRequest": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "primaryColor": { "type": "string" },
+          "secondaryColor": { "type": "string" },
+          "accentColor": { "type": "string" },
+          "tone": { "$ref": "#/components/schemas/BrandTone" },
+          "status": { "$ref": "#/components/schemas/ProductStatus" },
+          "description": { "type": "string" },
+          "logoUrl": { "type": "string" },
+          "industry": { "type": "string" },
+          "targetAudience": { "type": "string" }
+        },
+        "required": ["name", "url", "primaryColor", "tone"]
+      },
+      "UpdateProductRequest": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "primaryColor": { "type": "string" },
+          "secondaryColor": { "type": "string" },
+          "accentColor": { "type": "string" },
+          "tone": { "$ref": "#/components/schemas/BrandTone" },
+          "status": { "$ref": "#/components/schemas/ProductStatus" },
+          "description": { "type": "string" },
+          "logoUrl": { "type": "string" },
+          "industry": { "type": "string" },
+          "targetAudience": { "type": "string" }
+        }
+      },
+      "ProductsListResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Product" }
+          },
+          "total": { "type": "integer" }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      },
+      "KeywordsRequest": {
+        "type": "object",
+        "properties": {
+          "topic": { "type": "string" },
+          "count": { "type": "integer", "default": 10 }
+        },
+        "required": ["topic"]
+      },
+      "KeywordsResponse": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "keyword": { "type": "string" },
+                "volume": { "type": "integer" },
+                "difficulty": { "type": "number" }
+              }
+            }
+          }
+        }
+      },
+      "MediumPublishRequest": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string" },
+          "title": { "type": "string" },
+          "content": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "publishStatus": {
+            "type": "string",
+            "enum": ["draft", "public", "unlisted"]
+          }
+        },
+        "required": ["token", "title", "content"]
+      },
+      "MediumPublishResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "url": { "type": "string" },
+          "id": { "type": "string" }
+        }
+      },
+      "MediumPublicationsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "publications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "ShopifyArticleRequest": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["article"] },
+          "title": { "type": "string" },
+          "content": { "type": "string" },
+          "contentHtml": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "publishStatus": {
+            "type": "string",
+            "enum": ["draft", "public", "unlisted"]
+          },
+          "canonicalUrl": { "type": "string" },
+          "blogId": { "type": "number" },
+          "author": { "type": "string" }
+        },
+        "required": ["type", "title", "content"]
+      },
+      "ShopifyProductRequest": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["product"] },
+          "title": { "type": "string" },
+          "body_html": { "type": "string" },
+          "product_type": { "type": "string" },
+          "vendor": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "status": {
+            "type": "string",
+            "enum": ["active", "archived", "draft"]
+          },
+          "variants": { "type": "array", "items": { "type": "object" } },
+          "images": { "type": "array", "items": { "type": "object" } },
+          "options": { "type": "array", "items": { "type": "object" } }
+        },
+        "required": ["type", "title"]
+      },
+      "ShopifyCollectionRequest": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["collection"] },
+          "title": { "type": "string" },
+          "body_html": { "type": "string" },
+          "handle": { "type": "string" },
+          "published": { "type": "boolean" },
+          "image": { "type": "object" }
+        },
+        "required": ["type", "title"]
+      },
+      "ShopifyImageUploadRequest": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["image-upload"] },
+          "productId": { "type": "number" },
+          "images": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        },
+        "required": ["type", "productId", "images"]
+      },
+      "ShopifyPublishResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "type": { "type": "string" },
+          "postId": { "type": "string" },
+          "url": { "type": "string" },
+          "metadata": { "type": "object" }
+        }
+      },
+      "ShopifyUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "id": { "type": "string" },
+          "shopDomain": { "type": "string" },
+          "accessToken": { "type": "string" }
+        }
+      },
+      "ShopifyInfoResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "shop": { "type": "object" },
+          "blogs": { "type": "array", "items": { "type": "object" } }
+        }
+      },
+      "PricesResponse": {
+        "type": "object",
+        "properties": {
+          "prices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "nickname": { "type": "string" },
+                "currency": { "type": "string" },
+                "unit_amount": { "type": "integer" },
+                "recurring": { "type": "object" }
+              }
+            }
+          }
+        }
+      },
+      "SubscriptionResponse": {
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "status": { "type": "string" },
+              "current_period_end": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "CreateSubscriptionRequest": {
+        "type": "object",
+        "properties": {
+          "priceId": { "type": "string" }
+        },
+        "required": ["priceId"]
+      },
+      "CheckoutSessionRequest": {
+        "type": "object",
+        "properties": {
+          "priceId": { "type": "string" },
+          "successUrl": { "type": "string" },
+          "cancelUrl": { "type": "string" }
+        },
+        "required": ["priceId"]
+      },
+      "CheckoutSessionResponse": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" }
+        }
+      },
+      "DomainAuthorityMetrics": {
+        "type": "object",
+        "properties": {
+          "domain": { "type": "string" },
+          "domainAuthority": { "type": "integer" },
+          "spamScore": { "type": "integer" },
+          "pageAuthority": { "type": "integer" },
+          "links": { "type": "integer" },
+          "cached": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "BatchDomainAuthorityRequest": {
+        "type": "object",
+        "properties": {
+          "domains": { "type": "array", "items": { "type": "string" } },
+          "bypassCache": { "type": "boolean" }
+        },
+        "required": ["domains"]
+      },
+      "BatchDomainAuthorityResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DomainAuthorityMetrics" }
+          },
+          "total": { "type": "integer" },
+          "cached": { "type": "integer" },
+          "fetched": { "type": "integer" }
+        }
+      },
+      "UsageStatsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "quotas": { "type": "object" },
+              "usage": { "type": "object" }
+            }
+          }
+        }
+      },
+      "CheckUsageRequest": {
+        "type": "object",
+        "properties": {
+          "metric": { "type": "string" },
+          "quantity": { "type": "integer" },
+          "planId": { "type": "string" },
+          "organizationId": { "type": "string" }
+        },
+        "required": ["metric", "quantity"]
+      },
+      "CheckUsageResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "allowed": { "type": "boolean" },
+              "remaining": { "type": "integer" },
+              "limit": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "UploadResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "url": { "type": "string" },
+          "filename": { "type": "string" }
+        }
+      },
+      "DashboardMetricsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "type": "object" }
+        }
+      },
+      "OnboardingResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "nextStep": { "type": "string" }
+        }
+      },
+      "DeletionStatusResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "hasPendingRequest": { "type": "boolean" },
+              "pendingRequest": { "type": "object" },
+              "summary": { "type": "object" },
+              "activeSubscriptions": { "type": "array" }
+            }
+          }
+        }
+      },
+      "AccountDeletionRequest": {
+        "type": "object",
+        "properties": {
+          "confirmationToken": { "type": "string" },
+          "confirmed": { "type": "boolean" }
+        }
+      },
+      "ProtectedDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "userId": { "type": "string" },
+              "organizationId": { "type": "string" },
+              "message": { "type": "string" },
+              "timestamp": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "Service unavailable",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

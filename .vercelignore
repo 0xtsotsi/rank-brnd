@@ -1,0 +1,60 @@
+# Ignore files from Vercel deployment
+# This keeps deploy times fast and prevents unnecessary uploads
+
+# Dependencies (installed automatically)
+node_modules
+pnpm-lock.yaml
+
+# Development files
+.env.local
+.env.development
+.env.test
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+**/*.spec.ts
+**/*.test.ts
+**/__tests__/
+
+# Build artifacts
+.next
+out
+dist
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Documentation (optional, remove if you want docs deployed)
+docs/
+AGENTS.md
+BUILD-STATUS.md
+CLAUDE.md
+CONTRIBUTING.md
+DEPENDENCY-UPDATE-SUMMARY.md
+POSTCSS_ISSUE.md
+README.md
+REVERT-AUTOMAKER.md
+ROOT-CAUSE-ANALYSIS.md
+SETUP_SUPABASE_STORAGE.md
+
+# Worktrees
+.worktrees/

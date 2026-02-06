@@ -1,0 +1,44 @@
+{
+  "description": "Main dashboard page for Rank.brnd",
+  "version": "1.0.0",
+  "figmaNodeType": "CANVAS",
+  "fileKey": "pages/dashboard/main-dashboard",
+  "name": "Main Dashboard",
+  "author": "Rank.brnd Team",
+  "thumbnailUrl": "",
+  "documentUrl": "",
+  "updatedAt": "2026-02-05T18:56:00Z",
+  "nodeType": "CANVAS",
+  "mainComponentNode": "0:0",
+  "libraries": [],
+  "layers": [
+    {
+      "name": "Header",
+      "type": "CANVAS",
+      "visible": true,
+      "locked": false,
+      "children": ["0:1", "0:2"]
+    },
+    {
+      "name": "Sidebar",
+      "type": "FRAME",
+      "visible": true,
+      "locked": false,
+      "children": ["0:3"]
+    },
+    {
+      "name": "Content Area",
+      "type": "FRAME",
+      "visible": true,
+      "locked": false,
+      "children": ["0:4"]
+    },
+    {
+      "name": "Stats Cards",
+      "type": "FRAME",
+      "visible": true,
+      "locked": false,
+      "children": ["0:5"]
+    }
+  ]
+}
