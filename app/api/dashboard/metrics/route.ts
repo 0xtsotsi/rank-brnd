@@ -1,57 +1,44 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
-/**
- * GET /api/dashboard/metrics
- *
- * Returns dashboard metrics for the authenticated user including:
- * - Articles written count
- * - Keywords tracked count
- * - Publishing status breakdown
- */
-export async function GET(request: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
   try {
-    const { userId, orgId } = await auth();
+    const { userId } = await auth();
 
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
     }
 
-    // In a real implementation, these would be fetched from your database
-    // For now, returning mock data that matches the expected structure
+    // TODO: Connect to actual database and fetch real metrics
+    // For now, return mock data
     const metrics = {
       articles: {
-        total: 24,
-        trend: {
-          value: 12,
-          isPositive: true,
-        },
+        total: 0,
+        trend: { value: 0, isPositive: true }
       },
       keywords: {
-        total: 156,
-        trend: {
-          value: 8,
-          isPositive: true,
-        },
+        total: 0,
+        trend: { value: 0, isPositive: true }
+      },
+      views: {
+        total: '0',
+        trend: { value: 0, isPositive: true }
       },
       publishingStatus: {
-        published: 18,
-        draft: 4,
-        scheduled: 1,
-        pending_review: 1,
-      },
-      // Additional metrics for extensibility
-      views: {
-        total: '12.4K',
-        trend: {
-          value: 24,
-          isPositive: true,
-        },
-      },
+        published: 0,
+        draft: 0,
+        scheduled: 0,
+        pending_review: 0
+      }
     };
 
     return NextResponse.json(metrics);
-  } catch (error) {
+  } catch {
     console.error('Error fetching dashboard metrics:', error);
     return NextResponse.json(
       { error: 'Failed to fetch metrics' },
@@ -59,9 +46,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-/**
- * Revalidation configuration for Next.js ISR
- * Revalidate every 5 minutes to keep metrics relatively fresh
- */
-export const dynamic = 'force-dynamic';
