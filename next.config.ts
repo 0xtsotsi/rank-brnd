@@ -48,16 +48,17 @@ const nextConfig: NextConfig = {
           // Content Security Policy (CSP)
           // Prevents XSS, data injection, and other code injection attacks
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+          // Updated to allow Clerk authentication
           {
             key: 'Content-Security-Policy',
             value: [
               // Default restrict to same origin
               "default-src 'self';",
 
-              // Script sources - allow inline and eval for Next.js development
+              // Script sources - allow Clerk and inline scripts
               process.env.NODE_ENV === 'development'
-                ? "script-src 'self' 'unsafe-eval' 'unsafe-inline' vscode-resource:;"
-                : "script-src 'self';",
+                ? "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.clerk.com vscode-resource:;"
+                : "script-src 'self' 'unsafe-inline' https://*.clerk.com;",
 
               // Style sources - allow inline for styled-jsx and Tailwind
               "style-src 'self' 'unsafe-inline';",
