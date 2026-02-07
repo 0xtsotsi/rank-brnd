@@ -55,10 +55,8 @@ const nextConfig: NextConfig = {
               // Default restrict to same origin
               "default-src 'self';",
 
-              // Script sources - allow Clerk and inline scripts
-              process.env.NODE_ENV === 'development'
-                ? "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.clerk.com vscode-resource:;"
-                : "script-src 'self' 'unsafe-inline' https://*.clerk.com;",
+              // Script sources - allow Clerk, PostHog, and inline scripts
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.com https://*.clerk.accounts.dev https://*.posthog.com vscode-resource:;",
 
               // Style sources - allow inline for styled-jsx and Tailwind
               "style-src 'self' 'unsafe-inline';",
@@ -67,7 +65,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https://*.clerk.com https://*.stripe.com;",
 
               // Connect sources - allow API calls to required services
-              "connect-src 'self' https://*.clerk.com https://*.stripe.com https://*.supabase.co https://*.posthog.com wss://*.clerk.com wss://*.supabase.co;",
+              "connect-src 'self' https://*.clerk.com https://*.clerk.accounts.dev https://*.stripe.com https://*.supabase.co https://*.posthog.com wss://*.clerk.com wss://*.clerk.accounts.dev wss://*.supabase.co;",
 
               // Font sources
               "font-src 'self' data:;",
