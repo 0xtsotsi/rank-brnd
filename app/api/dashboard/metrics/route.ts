@@ -38,7 +38,7 @@ export async function GET() {
     };
 
     return NextResponse.json(metrics);
-  } catch {
+  } catch (error: unknown) {
     console.error('Error fetching dashboard metrics:', error);
     return NextResponse.json(
       {
